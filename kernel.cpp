@@ -3,6 +3,8 @@
 #include "terminal.h"
 #include "stdio.h"
 
+using namespace kernel;
+
 extern "C"
 void kmain(uint32_t mb_magic, multiboot_info_t *mb_info)
 {

@@ -3,6 +3,7 @@
 #include "idt.h"
 #include "isr_exceptions.h"
 #include "isr_irqs.h"
+#include "kb.h"
 #include "timer.h"
 
 using namespace kernel;
@@ -16,5 +17,6 @@ void kernelInit()
   PIC_init();
   IDT_install_Exception_ISRs();
   IDT_install_IRQ_ISRs();
+  keyboardInit();
   timerInit();
 }

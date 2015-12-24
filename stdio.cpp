@@ -1,6 +1,8 @@
 #include <stdarg.h>
 #include "terminal.h"
 
+using namespace kernel;
+
 extern "C" {
 
 void puts(const char *str)

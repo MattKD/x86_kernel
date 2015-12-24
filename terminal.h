@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 #include "new.h"
+#include "kb.h"
+
+namespace kernel {
 
 class Terminal {
 public:
@@ -23,6 +26,7 @@ public:
   static Terminal& activeTerm() { return *active_term; }
   static Terminal& mainTerm() { return *main_term; }
   static void initMainTerm();
+  static void sendKeyEvent(const KeyEvent &kevent);
 
 private:
   static const int SCREEN_WIDTH = 80;
@@ -43,4 +47,5 @@ private:
   static Terminal *main_term;
 };
 
+} // namespace kernel
 #endif

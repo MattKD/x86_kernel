@@ -9,7 +9,7 @@ LFLAGS = -Wall -Wextra -pedantic -std=c++11 -O2 -ffreestanding -nostdlib \
 ODIR = build
 _OBJ = gdt.o gdt_load.o global_dtors.o idt.o idt_load.o ioport.o \
 			 isr_exception_wrappers.o isr_exceptions.o isr_irq_wrappers.o \
-			 isr_irqs.o kernel.o kernel_init.o kernel_panic.o loader.o \
+			 isr_irqs.o kb.o kernel.o kernel_init.o kernel_panic.o loader.o \
 			 stdio.o string.o terminal.o timer.o 
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 CRTI = $(ODIR)/crti.o
@@ -58,6 +58,9 @@ $(ODIR)/isr_irq_wrappers.o: isr_irq_wrappers.s
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 $(ODIR)/isr_irqs.o: isr_irqs.cpp isr_irqs.h idt.h
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+$(ODIR)/kb.o: kb.cpp kb.h ioport.h isr_irqs.h terminal.h
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 $(ODIR)/kernel.o: kernel.cpp multiboot.h terminal.h stdio.h

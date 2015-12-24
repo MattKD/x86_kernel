@@ -4,7 +4,10 @@
 #include "terminal.h"
 #include "ioport.h"
 
-static char main_term_buff[sizeof(Terminal)] alignas(Terminal); 
+static char main_term_buff[sizeof(kernel::Terminal)] 
+  alignas(kernel::Terminal); 
+
+namespace kernel {
 
 uint16_t *const Terminal::vram = (uint16_t *)0xB8000;
 Terminal *Terminal::active_term = nullptr;
@@ -202,3 +205,13 @@ void Terminal::put_x(unsigned n)
     putchar(nstr[digits - 1]);
   }
 }
+
+void Terminal::sendKeyEvent(const KeyEvent &key_event)
+{
+  if (key_event.ascii != -1 && key_event.keydown) {
+    Terminal::activeTerm().putchar(key_event.ascii);
+  }
+}
+
+} // namespace kernel
+

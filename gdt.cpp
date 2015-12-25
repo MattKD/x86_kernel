@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include "gdt.h"
+#include "kernel_panic.h"
 
 using namespace kernel;
 
@@ -42,7 +43,7 @@ void GDT_setDescriptor(int idx, uint32_t base, uint32_t limit,
                        uint8_t access, uint8_t flags)
 {
   if (idx < 0 || idx >= GDT_SIZE) {
-    //panic
+    kernel_panic("GDT_setDescriptor called with idx out of range");
     return;
   }
 

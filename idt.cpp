@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include "string.h"
 #include "idt.h"
+#include "kernel_panic.h"
 
 
 using namespace kernel;
@@ -48,7 +49,7 @@ void IDT_init()
 void IDT_add_ISR(int idx, void (*isr)())
 {
   if (idx < 0 || idx >= IDT_SIZE) {
-    //panic
+    kernel_panic("IDT_add_ISR called with index out of range");
     return;
   }
 

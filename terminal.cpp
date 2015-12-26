@@ -136,13 +136,6 @@ void Terminal::putchar(char c)
   }
 }
 
-void Terminal::puts(const char *str)
-{
-  while (*str) {
-    putchar(*str++);
-  }
-}
-
 void Terminal::put_d(int n)
 {
   char nstr[20];
@@ -199,7 +192,7 @@ void Terminal::put_x(unsigned n)
     n /= 16;
   } while (n != 0);
 
-  puts("0x");
+  putstr("0x");
 
   for (; digits > 0; --digits) {
     putchar(nstr[digits - 1]);

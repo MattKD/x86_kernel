@@ -18,7 +18,20 @@ public:
   void clear();
   void scrollDown();
   void putchar(char c);
-  void puts(const char *str);
+
+  void putstr(const char *str)
+  {
+    while (*str) {
+      putchar(*str++);
+    }
+  }
+
+  void puts(const char *str)
+  {
+    putstr(str);
+    putchar('\n');
+  }
+
   void put_d(int);
   void put_x(unsigned);
   void put_u(unsigned);

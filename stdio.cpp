@@ -1,4 +1,4 @@
-#include <stdarg.h>
+#include "stdio.h"
 #include "terminal.h"
 
 using namespace kernel;
@@ -11,11 +11,8 @@ void puts(const char *str)
   t.puts(str);
 }
 
-void printf(const char *fmt, ...)
+void vprintf(const char *fmt, va_list args)
 {
-  va_list args;
-  va_start(args, fmt);
-
   Terminal &term = Terminal::activeTerm();
 
   while (*fmt) {
@@ -38,7 +35,6 @@ void printf(const char *fmt, ...)
     }
     ++fmt;
   }
-  va_end(args);
 }
 
 } // extern C

@@ -49,7 +49,8 @@ void IDT_init()
 void IDT_add_ISR(int idx, void (*isr)())
 {
   if (idx < 0 || idx >= IDT_SIZE) {
-    kernel_panic("IDT_add_ISR called with index out of range");
+    kernel_panic("IDT_add_ISR called with idx out of range.\n"
+        "idx = %d, range=[0,%d]", idx, IDT_SIZE-1);
     return;
   }
 

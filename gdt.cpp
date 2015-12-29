@@ -43,7 +43,8 @@ void GDT_setDescriptor(int idx, uint32_t base, uint32_t limit,
                        uint8_t access, uint8_t flags)
 {
   if (idx < 0 || idx >= GDT_SIZE) {
-    kernel_panic("GDT_setDescriptor called with idx out of range");
+    kernel_panic("GDT_setDescriptor called with idx out of range.\n"
+        "idx = %d, range=[0,%d]", idx, GDT_SIZE-1);
     return;
   }
 

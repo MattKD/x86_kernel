@@ -12,7 +12,7 @@ ASM_SRCS := gdt_load.s idt_load.s ioport.s isr_exception_wrappers.s \
 
 DEPDIR := deps
 ODIR := build
-DEPS := $(patsubst %, $(DEPDIR)/%.makefile, $(CPP_SRCS))
+CPP_DEPS := $(patsubst %.cpp, $(DEPDIR)/%.makefile, $(CPP_SRCS))
 CPP_OBJS := $(patsubst %.cpp, $(ODIR)/%.o, $(CPP_SRCS))
 ASM_OBJS := $(patsubst %.s, $(ODIR)/%.o, $(ASM_SRCS))
 OBJS := $(CPP_OBJS) $(ASM_OBJS)
@@ -22,7 +22,7 @@ CRTN := $(ODIR)/crtn.o
 CRT_BEGIN := $(shell $(CC) $(CFLAGS) -print-file-name=crtbegin.o)
 CRT_END := $(shell $(CC) $(CFLAGS) -print-file-name=crtend.o)
 
-kernel.bin: $(DEPS) $(ASM_OBJS) $(CRTI) $(CRTN) 
+kernel.bin: $(OBJS) $(CRTI) $(CRTN) 
 	$(CC) -T linker.ld -o $@ $(CRTI) $(CRT_BEGIN) $(OBJS) $(CRT_END) $(CRTN) \
 		$(LFLAGS)
 
@@ -32,10 +32,10 @@ $(DEPDIR):
 $(ODIR):
 	mkdir $@
 
-$(DEPDIR)/%.cpp.makefile: $(ODIR)/%.o | $(DEPDIR)
-	$(CC) -MM $*.cpp -MT $(ODIR)/$*.o > $@
+$(CPP_DEPS): $(DEPDIR)/%.makefile: | $(DEPDIR)
+	$(CC) $(CFLAGS) -MM $*.cpp -MT "$(ODIR)/$*.o $@" > $@
 
--include $(DEPS)
+-include $(CPP_DEPS)
 
 $(CPP_OBJS): $(ODIR)/%.o: | $(ODIR)
 	$(CC) -o $@ -c $*.cpp $(CFLAGS)
@@ -45,5 +45,5 @@ $(ASM_OBJS) $(CRTI) $(CRTN): $(ODIR)/%.o: %.s | $(ODIR)
 
 .PHONY: clean
 clean:
-	rm -f $(OBJS)
-	rm -f $(DEPS)
+	rm -f $(OBJS) $(CRTI) $(CRTN)
+	rm -f $(CPP_DEPS)

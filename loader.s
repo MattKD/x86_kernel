@@ -33,6 +33,7 @@ loader:
     cli
     call kernelInit
     sti
+    addl $8, %esp # pop Multiboot info/magic
     call _init # call global ctors
     call kmain # should never return
     push $0 # pass null to __cxa_finalize to call all global dtors

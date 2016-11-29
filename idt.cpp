@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "string.h"
 #include "idt.h"
-#include "kernel_panic.h"
+#include "kernel.h"
 
 
 using namespace kernel;

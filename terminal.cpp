@@ -1,5 +1,6 @@
 #include <stdarg.h>
 #include <stdint.h>
+#include "new.h"
 #include "string.h"
 #include "terminal.h"
 #include "ioport.h"

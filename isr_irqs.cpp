@@ -1,4 +1,4 @@
-#include "kernel_panic.h"
+#include "kernel.h"
 #include "idt.h"
 #include "isr_irqs.h"
 #include "ioport.h"

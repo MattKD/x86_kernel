@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include "gdt.h"
-#include "kernel_panic.h"
+#include "kernel.h"
 
 using namespace kernel;
 

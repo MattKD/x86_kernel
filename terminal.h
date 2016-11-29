@@ -2,7 +2,6 @@
 #define VIDEO_H
 
 #include <stdint.h>
-#include "new.h"
 #include "kb.h"
 
 namespace kernel {

@@ -6,9 +6,9 @@ LFLAGS := -Wall -Wextra -pedantic -std=c++11 -O2 -ffreestanding -nostdlib \
 
 CPP_SRCS := gdt.cpp  global_dtors.cpp idt.cpp isr_exceptions.cpp \
 					 isr_irqs.cpp kb.cpp kernel.cpp kernel_init.cpp kernel_panic.cpp \
-					 stdio.cpp string.cpp terminal.cpp timer.cpp 
+					 paging.cpp stdio.cpp string.cpp terminal.cpp timer.cpp 
 ASM_SRCS := gdt_load.s idt_load.s ioport.s isr_exception_wrappers.s \
-					 isr_irq_wrappers.s loader.s  
+					 isr_irq_wrappers.s loader.s enable_paging.s 
 
 DEPDIR := deps
 ODIR := build

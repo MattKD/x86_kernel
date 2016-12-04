@@ -7,9 +7,16 @@
 #include "kb.h"
 #include "timer.h"
 #include "stdio.h"
+#include "paging.h"
 #include <stdint.h>
 
 using namespace kernel;
+
+extern "C" {
+  extern uint32_t _kernel_start_addr;
+  extern uint32_t _kernel_end_addr;
+}
+
 
 static const int max_num_frames = 1 << 20; // 1mb of 4kb frames = 4gb
 static void* frames[max_num_frames];
@@ -47,6 +54,9 @@ void kernelInit(uint32_t mb_magic, multiboot_info_t *mb_info)
   Terminal &term = Terminal::activeTerm();
   term.clear();
 
+  printf("kernel start = %x\n", &_kernel_start_addr);
+  printf("kernel end = %x\n", &_kernel_end_addr);
+
   if (mb_magic == MULTIBOOT_BOOTLOADER_MAGIC) {
     multiboot_memory_map_t *mmap = 
       (multiboot_memory_map_t *) mb_info->mmap_addr;
@@ -78,6 +88,7 @@ void kernelInit(uint32_t mb_magic, multiboot_info_t *mb_info)
     }
     
     printf("Number of 4KB frames: %d\n", num_free_frames);
+    enablePaging();
   } else {
     printf("Error: Couldn't initialize frame allocator\n");
   }

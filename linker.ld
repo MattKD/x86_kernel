@@ -4,6 +4,7 @@ SECTIONS
 {
     . = 1M;
 
+    _kernel_start_addr = ABSOLUTE(.); 
     .text ALIGN (4K) :
     {
         _mb_header_addr = .;
@@ -30,6 +31,6 @@ SECTIONS
         _mb_bss_end_addr = .;
     }
    
-    _kernel_end_addr = .; 
+    _kernel_end_addr = ABSOLUTE(.); 
 }
 

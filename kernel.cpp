@@ -15,8 +15,10 @@ void kmain()
   */
 
   printf("printf test:\n");
-  printf("d = %d (expect -10), u = %u (expect 100), x = %x (expect 0xABC), "
-         "s = %s (expect 'hello world')\n", -10, 100, 0xABC, "hello world");
+  printf("%% = %% (percent sign), d = %d (-10), u = %u (100), "
+         "x = %x (0xABC), f = %f (3.141592), "
+         "s = %s ('hello world')\n",
+         -10, 100, 0xABC, 3.141592, "hello world");
 
   //freeFrame(frame);
 

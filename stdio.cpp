@@ -18,6 +18,9 @@ void vprintf(const char *fmt, va_list args)
   while (*fmt) {
     if (*fmt != '%') {
       term.putchar(*fmt);
+    } else if (fmt[1] == '%') {
+      term.putchar('%');
+      ++fmt;
     } else {
       ++fmt;
       if (*fmt == 'd') {
@@ -26,6 +29,8 @@ void vprintf(const char *fmt, va_list args)
         term.put_u(va_arg(args, unsigned));
       } else if (*fmt == 'x') {
         term.put_x(va_arg(args, unsigned));
+      } else if (*fmt == 'f') {
+        term.put_f(va_arg(args, double));
       } else if (*fmt == 's') {
         const char *str = va_arg(args, const char *);
         for (; *str; ++str) {

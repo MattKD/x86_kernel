@@ -200,6 +200,23 @@ void Terminal::put_x(unsigned n)
   }
 }
 
+void Terminal::put_f(double d)
+{
+  int n = (int)d;
+  put_d(n);
+  putchar('.');
+  d -= n;
+  d *= 1000000; // move 6 decimal places
+  n = (int)d;
+
+  // remove trailing 0s
+  while (n % 10 == 0 && n != 0) {
+    n /= 10;
+  }
+
+  put_d(n);
+}
+
 void Terminal::sendKeyEvent(const KeyEvent &key_event)
 {
   if (key_event.ascii != -1 && key_event.keydown) {

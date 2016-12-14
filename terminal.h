@@ -34,6 +34,7 @@ public:
   void put_d(int);
   void put_x(unsigned);
   void put_u(unsigned);
+  void put_f(double);
 
   static Terminal& activeTerm() { return *active_term; }
   static Terminal& mainTerm() { return *main_term; }

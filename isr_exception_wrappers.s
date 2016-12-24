@@ -122,10 +122,12 @@ kernel_isr13:
 
 .global kernel_isr14
 kernel_isr14:
-  pusha
-  cld
+  #pusha
+  #cld
+  movl %cr2, %eax
+  pushl %eax
   call kernel_exception14 
-  popa
+  #popa
   addl $4, %eax
   iret
 

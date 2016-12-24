@@ -157,10 +157,15 @@ void kernel_exception13(int err)
   kernel_panic("General Protection Fault Exception");
 }
 
-void kernel_exception14(int err)
+void kernel_exception14(unsigned addr, int err)
 {
-  UNUSED(err);
-  kernel_panic("Page Fault Exception");
+  bool present = (err & 1) == 1;
+  bool write = (err & 2) == 2;
+  bool user = (err & 4) == 4;
+  kernel_panic("Page Fault: address = %x, err = %s, %s, %s\n", addr, 
+               present ? "Present" : "Not-Present",
+               write ? "Write" : "Read",
+               user ? "User": "Supervisor");
 }
 
 void kernel_exception15()

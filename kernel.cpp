@@ -8,11 +8,6 @@ using namespace kernel;
 extern "C"
 void kmain()
 {
-  /*
-  void *frame = allocFrame(); // 4KB frame
-  int *np = (int*)frame;
-  *np = -10;
-  */
 
   printf("printf test:\n");
   printf("%% = %% (percent sign), d = %d (-10), u = %u (100), "
@@ -20,7 +15,13 @@ void kmain()
          "s = %s ('hello world')\n",
          -10, 100, 0xABC, 3.141592, "hello world");
 
-  //freeFrame(frame);
+  // allocFrame used just for testing
+  void *frame = allocFrame(); // 4KB frame
+  printf("frame address %x\n", (unsigned)frame);
+  // causes page fault, and kernel panic
+  int *np = (int*)frame;
+  *np = -10;
+  freeFrame(frame);
 
   for (;;) { }
 }

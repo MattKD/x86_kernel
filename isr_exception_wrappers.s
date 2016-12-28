@@ -128,7 +128,8 @@ kernel_isr14:
   pushl %eax
   call kernel_exception14 
   #popa
-  addl $4, %eax
+  #addl $4, %eax
+  addl $8, %esp
   iret
 
 .global kernel_isr15

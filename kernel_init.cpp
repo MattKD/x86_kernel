@@ -8,15 +8,10 @@
 #include "timer.h"
 #include "stdio.h"
 #include "paging.h"
+#include "kernel.h"
 #include <stdint.h>
 
 using namespace kernel;
-
-extern "C" {
-  extern uint32_t _kernel_start_addr;
-  extern uint32_t _kernel_end_addr;
-}
-
 
 static const int max_num_frames = 1 << 20; // 1mb of 4kb frames = 4gb
 static void* frames[max_num_frames];

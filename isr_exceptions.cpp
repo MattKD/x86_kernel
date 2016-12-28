@@ -1,6 +1,7 @@
 #include "kernel.h"
 #include "idt.h"
 #include "isr_exceptions.h"
+#include "paging.h"
 
 #define UNUSED(var) (void)(var)
 
@@ -80,6 +81,8 @@ void IDT_install_Exception_ISRs()
 
 } // namespace kernel
 
+using namespace kernel;
+
 extern "C" {
 
 void kernel_exception0()
@@ -157,15 +160,49 @@ void kernel_exception13(int err)
   kernel_panic("General Protection Fault Exception");
 }
 
-void kernel_exception14(unsigned addr, int err)
+static void page_fault_panic(unsigned addr, int err)
 {
   bool present = (err & 1) == 1;
   bool write = (err & 2) == 2;
   bool user = (err & 4) == 4;
+
   kernel_panic("Page Fault: address = %x, err = %s, %s, %s\n", addr, 
                present ? "Present" : "Not-Present",
                write ? "Write" : "Read",
                user ? "User": "Supervisor");
+}
+
+void kernel_exception14(unsigned addr, int err)
+{
+  uint32_t dir_idx = addr >> 22; // bits 23-32
+  uint32_t tbl_idx = (addr >> 12) & 1023; // bits 13-22
+  uint32_t dir_entry = page_directory[dir_idx];
+
+  if ((dir_entry & PagePresentFlag) == 0) {
+    uint32_t tbl_addr = getPageTable();
+    if (tbl_addr == 0) {
+      page_fault_panic(addr, err);
+    }
+    page_directory[dir_idx] = tbl_addr | PageWriteFlag | PagePresentFlag; 
+    dir_entry = page_directory[dir_idx];
+
+    uint32_t *page_table = (uint32_t*)tbl_addr;
+    for (int i = 0; i < 1024; ++i) {
+      page_table[i] = 0;
+    }
+  }
+
+  uint32_t *page_table = (uint32_t*)(dir_entry & ~1023);
+  uint32_t tbl_entry = page_table[tbl_idx];
+
+  if ((tbl_entry & PagePresentFlag) == 0) {
+    uint32_t page_addr = (uint32_t)allocFrame();
+    if (page_addr == 0) {
+      page_fault_panic(addr, err);
+    }
+    page_table[tbl_idx] = page_addr | PageWriteFlag | PagePresentFlag; 
+    tbl_entry = page_directory[dir_idx];
+  }
 }
 
 void kernel_exception15()

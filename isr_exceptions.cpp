@@ -3,8 +3,6 @@
 #include "isr_exceptions.h"
 #include "paging.h"
 
-#define UNUSED(var) (void)(var)
-
 extern "C" {
 
 void kernel_isr0();
@@ -87,77 +85,72 @@ extern "C" {
 
 void kernel_exception0()
 {
-  kernel_panic("Division By Zero Exception");
+  kernel_panic("Division By Zero Exception\n");
 }
 
 void kernel_exception1()
 {
-  kernel_panic("Debug Exception");
+  kernel_panic("Debug Exception\n");
 }
 
 void kernel_exception2()
 {
-  kernel_panic("NMI Exception");
+  kernel_panic("NMI Exception\n");
 }
 
 void kernel_exception3()
 {
-  kernel_panic("Breakpoint Exception");
+  kernel_panic("Breakpoint Exception\n");
 }
 
 void kernel_exception4()
 {
-  kernel_panic("Into Detected Overflow Exception");
+  kernel_panic("Into Detected Overflow Exception\n");
 }
 
 void kernel_exception5()
 {
-  kernel_panic("Out of Bounds Exception");
+  kernel_panic("Out of Bounds Exception\n");
 }
 
 void kernel_exception6()
 {
-  kernel_panic("Invalid Opcode Exception");
+  kernel_panic("Invalid Opcode Exception\n");
 }
 
 void kernel_exception7()
 {
-  kernel_panic("No Coprocessor Exception");
+  kernel_panic("No Coprocessor Exception\n");
 }
 
 void kernel_exception8(int err)
 {
-  UNUSED(err);
-  kernel_panic("Double Fault Exception");
+  kernel_panic("Double Fault Exception, Err: %d\n", err);
 }
 
 void kernel_exception9()
 {
-  kernel_panic("Coprocessor Segment Overrun Exception");
+  kernel_panic("Coprocessor Segment Overrun Exception\n");
 }
 
 void kernel_exception10(int err)
 {
-  UNUSED(err);
-  kernel_panic("Bad TSS Exception");
+  kernel_panic("Bad TSS Exception, Err: %d\n", err);
 }
 
 void kernel_exception11(int err)
 {
-  UNUSED(err);
-  kernel_panic("Segment Not Present Exception");
+  kernel_panic("Segment Not Present Exception, Err: %d\n", err);
 }
 
 void kernel_exception12(int err)
 {
-  UNUSED(err);
-  kernel_panic("Stack Fault Exception");
+  kernel_panic("Stack Fault Exception, Err: %d\n", err);
 }
 
 void kernel_exception13(int err)
 {
-  UNUSED(err);
-  kernel_panic("General Protection Fault Exception");
+  kernel_panic("General Protection Fault Exception, Err: %d\n", err);
 }
 
 static void page_fault_panic(unsigned addr, int err)
@@ -207,28 +200,34 @@ void kernel_exception14(unsigned addr, int err)
 
 void kernel_exception15()
 {
-  kernel_panic("Unknown Interrupt Exception");
+  kernel_panic("Unknown Interrupt Exception\n");
 }
 
 void kernel_exception16()
 {
-  kernel_panic("Coprocessor Fault Exception");
+  kernel_panic("Coprocessor Fault Exception\n");
 }
 
-void kernel_exception17()
+void kernel_exception17(int err)
 {
-  kernel_panic("Alignment Check Exception");
+  kernel_panic("Alignment Check Exception, Err: %d\n", err);
 }
 
 void kernel_exception18()
 {
-  kernel_panic("Machine Check Exception");
+  kernel_panic("Machine Check Exception\n");
 }
 
+// Exception 19-29,31
 void kernel_exception_reserved(int exception_num)
 {
-  UNUSED(exception_num);
-  kernel_panic("Reserved Exception");
+  kernel_panic("Reserved Exception %d\n", exception_num);
 }
+
+void kernel_exception30(int err)
+{
+  kernel_panic("Security Exception, Err: %d\n", err);
+}
+
 
 } // extern C

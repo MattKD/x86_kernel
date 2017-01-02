@@ -5,7 +5,6 @@
 
 namespace kernel {
 
-uint32_t getPageTable();
 void enablePaging();
 
 enum PageFlags {

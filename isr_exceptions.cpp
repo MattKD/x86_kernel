@@ -171,18 +171,9 @@ void kernel_exception14(unsigned addr, int err)
   uint32_t tbl_idx = (addr >> 12) & 1023; // bits 13-22
   uint32_t dir_entry = page_directory[dir_idx];
 
+  // page_directory should be filled and all tables present
   if ((dir_entry & PagePresentFlag) == 0) {
-    uint32_t tbl_addr = getPageTable();
-    if (tbl_addr == 0) {
-      page_fault_panic(addr, err);
-    }
-    page_directory[dir_idx] = tbl_addr | PageWriteFlag | PagePresentFlag; 
-    dir_entry = page_directory[dir_idx];
-
-    uint32_t *page_table = (uint32_t*)tbl_addr;
-    for (int i = 0; i < 1024; ++i) {
-      page_table[i] = 0;
-    }
+    page_fault_panic(addr, err);
   }
 
   uint32_t *page_table = (uint32_t*)(dir_entry & ~1023);

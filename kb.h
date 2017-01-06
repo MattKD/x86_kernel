@@ -12,6 +12,8 @@ struct KeyEvent {
 };
 
 void keyboardInit();
+void disableKeyboardInput();
+void enableKeyboardInput();
 
 enum Key {
   KEY_ESCAPE = 0,

@@ -3,12 +3,15 @@
 #include "terminal.h"
 #include "stdio.h"
 #include "timer.h"
+#include "kb.h"
 
 using namespace kernel;
 
 extern "C"
 void kmain()
 {
+  disableKeyboardInput(); 
+  printf("Keyboard input disabled\n");
 
   printf("printf test:\n");
   printf("%% = %% (percent sign), d = %d (-10), u = %u (100), "
@@ -30,6 +33,9 @@ void kmain()
     printf("%d\n", i+1);
   }
   printf("Done sleeping\n");
+
+  enableKeyboardInput(); 
+  printf("Keyboard input enabled\n");
 
   // loop forever
   for (;;) { }

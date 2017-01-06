@@ -7,6 +7,7 @@ using namespace kernel;
 
 namespace {
 
+bool kb_input_disabled = false;
 bool caps_lock = false;
 //bool num_lock = false;
 //bool scroll_lock = false;
@@ -138,7 +139,12 @@ void IRQ_keyboardHandler()
     }    
     k = mb_keymap[scancode];
   }
-  
+
+  // need to call kernel_inport before returning
+  if (kb_input_disabled) {
+    return;
+  }
+ 
   if (k.keycode != -1) {
     KeyEvent kevent;
     kevent.keycode = k.keycode;
@@ -173,6 +179,16 @@ namespace kernel {
 void keyboardInit()
 {
   IRQ_addHandler(1, IRQ_keyboardHandler);
+}
+
+void disableKeyboardInput()
+{
+  kb_input_disabled = true;
+}
+
+void enableKeyboardInput()
+{
+  kb_input_disabled = false;
 }
 
 }

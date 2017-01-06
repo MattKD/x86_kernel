@@ -2,6 +2,7 @@
 #include "isr_irqs.h"
 #include "ioport.h"
 #include "stdio.h"
+#include "kb.h"
 
 extern "C" {
 
@@ -40,10 +41,18 @@ void timerInit()
 
 void sleep(unsigned ms)
 {
+  bool kb_was_disabled = isKeyboardDisabled();
+  disableKeyboardInput();
+
   unsigned end_ticks = timer_ticks + ms;
   while(timer_ticks < end_ticks) 
   { 
     kernel_halt();
+  }
+
+  // reenable keyboard if it wasn't disabled before sleep
+  if (!kb_was_disabled) {
+    enableKeyboardInput();
   }
 }
 

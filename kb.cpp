@@ -191,4 +191,9 @@ void enableKeyboardInput()
   kb_input_disabled = false;
 }
 
+bool isKeyboardDisabled()
+{
+  return kb_input_disabled;
+}
+
 }

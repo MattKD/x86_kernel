@@ -1,6 +1,13 @@
 #include <stdint.h>
 #include "isr_irqs.h"
 #include "ioport.h"
+#include "stdio.h"
+
+extern "C" {
+
+void kernel_halt();
+
+}
 
 namespace {
 
@@ -31,10 +38,13 @@ void timerInit()
   IRQ_addHandler(0, IRQ_timerHandler);
 }
 
-void sleep(unsigned ticks)
+void sleep(unsigned ms)
 {
-  unsigned end_ticks = timer_ticks + ticks;
-  while(timer_ticks < end_ticks) { }
+  unsigned end_ticks = timer_ticks + ms;
+  while(timer_ticks < end_ticks) 
+  { 
+    kernel_halt();
+  }
 }
 
 } // namespace kernel

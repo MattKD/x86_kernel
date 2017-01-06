@@ -2,7 +2,7 @@
 
 extern "C" {
 
-void kernel_halt(); // loader.s
+void kernel_halt_loop(); // loader.s
 
 void kernel_panic(const char *fmt, ...)
 {
@@ -10,7 +10,7 @@ void kernel_panic(const char *fmt, ...)
   va_start(args, fmt);
   vprintf(fmt, args);
   va_end(args);
-  kernel_halt();
+  kernel_halt_loop(); // never returns
 }
 
 }

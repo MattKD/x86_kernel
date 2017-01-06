@@ -1,7 +1,8 @@
 #include <stdint.h>
+#include "kernel.h"
 #include "terminal.h"
 #include "stdio.h"
-#include "kernel.h"
+#include "timer.h"
 
 using namespace kernel;
 
@@ -23,6 +24,14 @@ void kmain()
   *np = -10;
   freeFrame(frame);
 
+  printf("Sleep for 5 secs\n");
+  for (int i = 0; i < 5; i++) {
+    sleep(1000);
+    printf("%d\n", i+1);
+  }
+  printf("Done sleeping\n");
+
+  // loop forever
   for (;;) { }
 }
 

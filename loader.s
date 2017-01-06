@@ -41,10 +41,16 @@ loader:
     call _fini
     jmp kernel_halt
 
-# halt machine on unrecoverable errors
-.global kernel_halt
-kernel_halt:
+# halt machine forever on unrecoverable errors
+.global kernel_halt_loop
+kernel_halt_loop:
     cli
     hlt 
     jmp kernel_halt
+
+# put cpu to sleep until interrupt received
+.global kernel_halt
+kernel_halt:
+    hlt 
+    ret
 

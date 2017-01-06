@@ -4,7 +4,7 @@
 namespace kernel {
 
 void timerInit();
-void sleep(unsigned ticks);
+void sleep(unsigned ms);
 
 }
 
